@@ -2,6 +2,7 @@ import { Router } from "express";
 import carServices from "../services/carServices.js";
 import { isAuth } from "../middlewars/authMiddleware.js";
 import { getErrorMessage } from "../utils/errorMessage.js";
+import { AUTH_COOKIE_NAME } from "../config/index.js";
 
 const carsController = Router();
 
@@ -11,16 +12,19 @@ carsController.get('/all-posts', async (req,res) => {
 })
 
 carsController.get('/create', (req, res) => {
-    res.render('creatures/create')
+    res.render('cars/create')
 });
 
 carsController.post('/create', isAuth, async (req, res) => {
+    console.log(req.body);
+    
     try {
-        await creaturesServices.create({ ...req.body, owner: req.user._id });
-        res.redirect('/creatures/all-posts');
+        await carServices.create({ ...req.body, owner: req.user._id });
+        
+        res.redirect('/cars/all-posts');
     } catch (error) {
         console.log(error);
-        res.render('creatures/create', { error: getErrorMessage(error) });
+        res.render('cars/create', { error: getErrorMessage(error) });
     }
 });
 

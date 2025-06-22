@@ -21,7 +21,7 @@ const carSchema = new Schema({
     topspeed: {
         type: Number,
         required: true,
-        minLength: [2, 'Product should be at least 2 characters!'],
+        min: [2, 'Product should be at least 2 characters!'],
         
     },
     image: {
