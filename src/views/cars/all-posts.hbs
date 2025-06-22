@@ -1,0 +1,16 @@
+
+            <section id="catalog">
+                <h1>All posts</h1>
+                {{#if cars}}
+                    {{#each car}}
+                        {{> post-card}}
+                    {{/each}}
+                {{else}}
+                    
+                    <div class="no-posts">
+                        <p class="no-cars">There are no car posts yet...</p>
+                    </div> 
+                    {{/if}}
+                </div>
+            </section>
+        
