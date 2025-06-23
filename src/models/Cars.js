@@ -27,7 +27,7 @@ const carSchema = new Schema({
     image: {
         type: String,
         required: true,
-        validate: /^https?:\/\//i
+        validate: [/^https?:\/\//i, 'Invalid image format']
     },
     description: {
         type: String,

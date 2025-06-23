@@ -1,16 +1,30 @@
 
             <section id="catalog">
                 <h1>All posts</h1>
-                {{#if cars}}
-                    {{#each car}}
-                        {{> post-card}}
-                    {{/each}}
-                {{else}}
-                    
-                    <div class="no-posts">
-                        <p class="no-cars">There are no car posts yet...</p>
-                    </div> 
+                <div class="wrap">
+                   {{#if cars}}
+                            {{#each cars}}
+                    <div class="car-card car-card-info">
+                        <div class="front">
+                            <img src="{{image}}"
+                                alt="Bugatti Chiron Super Sport 300+">
+                        </div>
+                        <div class="back">
+                            <h1>{{model}}</h1>
+                            <h2>Top Speed: {{topspeed}}</h2>
+                            <p>{{description}}</p>
+                            <a href="/cars/details/{{_id}}" class="details">Details</a>
+                        </div>
+                    </div>
+                            {{/each}}
                     {{/if}}
+
+
+
+                    <!-- If there are still no posts in the database display: -->
+                    <!-- <div class="no-posts">
+                        <p class="no-cars">There are no car posts yet...</p>
+                    </div> -->
                 </div>
             </section>
-        
+       

@@ -7,17 +7,17 @@ export default{
     Car.create(carData)
 },
   getAll()  {
-    Car.find().lean()
+    return Car.find().lean()
 },
   getOne(carId) {
-    Car.findById(carId).populate('voted')
+    return Car.findById(carId).populate('likes')
 },
     
   deleteOne(carId) {
     Car.findByIdAndDelete(carId)
 },
   findOwner(userId) {
-    ser.findById(userId).lean()
+    Car.findById(userId).lean()
 },
   getMyCreatedPost(userId)  {
     Car.find({ owner: userId }).lean()

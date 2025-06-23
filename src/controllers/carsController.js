@@ -8,6 +8,7 @@ const carsController = Router();
 
 carsController.get('/all-posts', async (req,res) => {
     let cars = await carServices.getAll();
+    
     res.render('cars/all-posts', {cars})
 })
 
@@ -28,12 +29,17 @@ carsController.post('/create', isAuth, async (req, res) => {
     }
 });
 
-carsController.get('/:id/details', async (req, res) => {
-    let cars = await carsServices.getOne(req.params.id);
+carsController.get('/details/:id', async (req, res) => {
+    
+    let cars = await carServices.getOne(req.params.id);
+    
     let carsData = await cars.toObject();
-
+    console.log(carsData);
+    
     let isOwner = carsData.owner == req.user?._id;
-    let carsOwner = await carsServices.findOwner(cars.owner).lean();
+    
+    
+    let carsOwner = await carServices.findOwner(cars.owner);
     let creatureInfo = carsData.liked;
 
     let emails = [];
@@ -44,7 +50,10 @@ carsController.get('/:id/details', async (req, res) => {
     let isLiked = req.user && liked.some(c => c._id == req.user?._id);
 
     res.render('cars/details', { ...carsData, isOwner, isLiked, carsOwner, creatureInfo, emails })
+    
 });
+
+
 
 async function isOwner(req, res, next) {
     let cars = await carsServices.getOne(req.params.id);

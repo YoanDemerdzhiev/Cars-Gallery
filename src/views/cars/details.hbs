@@ -4,39 +4,32 @@
         <div class="card_left">
             <div class="card-details">
 
-                <h1>Model: {{name}}</h1>
-                <h3>Posted by: {{carsOwner.firstname}}{{carsOwner.lastname}}</h3>
+                <h1>Model: Bugatti Chiron Super Sport 300+</h1>
+                <h3>Posted by: Alex Smith</h3>
 
                 <div class="card-specs">
-                    <p class="card-manufacturer">Manufacturer: {{manufacturer}}</p>
-                    <p class="card-engine">Engine Type: {{engine}}</p>
-                    <p class="card-top-speed">Top Speed: {{Speed}}</p>
+                    <p class="card-manufacturer">Manufacturer: Bugatti</p>
+                    <p class="card-engine">Engine Type: 8.0L Quad-Turbo W16</p>
+                    <p class="card-top-speed">Top Speed: 304.8 kmph</p>
                 </div>
 
                 <p class="disc">
-                    Description: {{description}}
+                    Description: The Bugatti Chiron Super Sport 300+ is a record-breaking hypercar that became the first production vehicle to break the 300 mph barrier. With a sleek aerodynamic design and unmatched performance, it's powered by a monstrous 8.0-liter quad-turbocharged W16 engine producing 1,577 horsepower. Only a few were made, making it one of the rarest and most sought-after cars in the world.
                 </p>
 
                 <!-- If there is no registered user, do not display buttons-->
-                {{#if user}}
                 <div class="social-btn">
                     <!-- Only for registered user and author of the post -->
-                    {{#if isOwner}}
                     <a href="#" class="edit-btn">Edit</a>
                     <a href="#" class="del-btn">Delete</a>
-                    {{else}}
-                    {{#if isLiked}}
                     <!-- logged in users, who have not yet liked-->
                     <a href="#" class="like-btn">Like</a>
-                    {{else}}
+
                     <!-- logged in user who has already liked-->
                     <p class="you-liked">Thanks For The Like</p>
-                </div>{{/if}}
-                        {{/if}}
+                </div>
 
             </div>
-            {{/if}}
-                        
         </div>
         <div class="card_right">
             <img src="./static/img/Bugatti Chiron Super Sport.webp" alt="Bugatti Chiron Super Sport 300+">
@@ -61,4 +54,4 @@
     </div>
 </section>
 
-        
+     
