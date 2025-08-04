@@ -3,6 +3,7 @@ import carServices from "../services/carServices.js";
 import { isAuth } from "../middlewars/authMiddleware.js";
 import { getErrorMessage } from "../utils/errorMessage.js";
 import { AUTH_COOKIE_NAME } from "../config/index.js";
+import Car from "../models/Cars.js";
 
 const carsController = Router();
 
@@ -17,15 +18,15 @@ carsController.get('/create', (req, res) => {
 });
 
 carsController.post('/create', isAuth, async (req, res) => {
-    console.log(req.body);
+    const carData = req.body;
     
     try {
-        await carServices.create({ ...req.body, owner: req.user._id });
+        await carServices.create(carData);
         
         res.redirect('/cars/all-posts');
     } catch (error) {
         console.log(error);
-        res.render('cars/create', { error: getErrorMessage(error) });
+        res.render('cars/create', { error: getErrorMessage(error) , car: carData});
     }
 });
 

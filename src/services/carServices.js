@@ -3,8 +3,8 @@ import User from '../models/User.js';
 
 
 export default{
-  create (carData)  {
-    Car.create(carData)
+  async create (carData)  {
+    await Car.create(carData)
 },
   getAll()  {
     return Car.find().lean()
