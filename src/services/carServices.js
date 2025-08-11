@@ -19,8 +19,8 @@ export default{
   findOwner(userId) {
     Car.findById(userId).lean()
 },
-  getMyCreatedPost(userId)  {
-    Car.find({ owner: userId }).lean()
+  getMyPosts(userId)  {
+    return Car.find({ owner: userId }).lean()
 },
   updateOne(carId, carData)  
 {

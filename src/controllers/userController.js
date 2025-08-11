@@ -15,12 +15,11 @@ userConstroller.get('/register', isGuest, (req,res) => {
 userConstroller.post('/register', isGuest, async (req, res) => {
         const userData = req.body;
         
+        
         try {
-
         const token = await userServices.register(userData)
         res.cookie(AUTH_COOKIE_NAME,token)
         res.redirect('/')
-
         } catch (err) {
                 res.render('user/register', {error: getErrorMessage(err), user: userData})
         }

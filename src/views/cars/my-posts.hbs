@@ -2,10 +2,27 @@
     <h1>My Cars Posts</h1>
 
     <div class="my-container">
+       
         {{#if cars}}
-            {{#each car}}
-                {{> post-card}}
-            {{/each}}
+        {{#each cars}}
+                    <div class="my-card">
+                        <div class="card-header">
+                            <img src="{{image}}">
+                        </div>
+                        <div class="card-body">
+                            
+                            <span class = "tag">Top Speed: {{topspeed}}</span>
+                            <h4>{{model}}</h4>
+                            <div class="user">
+                                <div class="user-info">
+                                    <h5>Manufacturer: {{manufacturer}}</h5>
+                                    <small>Engine:{{engine}}</small>
+                                    <a href="/cars/details/{{_id}}" class="details_btn">Details</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {{/each}}
             {{else}}
             <div class="no-posts">
                 <p class="no-cars">There are no own posts yet....</p>

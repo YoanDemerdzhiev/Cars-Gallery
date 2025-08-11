@@ -38,8 +38,8 @@ const carSchema = new Schema({
     },
     owner: {
         type: mongoose.Types.ObjectId,
-        ref: 'User',
-        
+        ref: 'User'
+        // required: true
     },
     likes: [
         {

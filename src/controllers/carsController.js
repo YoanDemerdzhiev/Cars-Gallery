@@ -19,10 +19,9 @@ carsController.get('/create', (req, res) => {
 
 carsController.post('/create', isAuth, async (req, res) => {
     const carData = req.body;
-    
+    carData.owner = req.user.id;
     try {
         await carServices.create(carData);
-        
         res.redirect('/cars/all-posts');
     } catch (error) {
         console.log(error);
@@ -55,64 +54,69 @@ carsController.get('/details/:id', async (req, res) => {
 });
 
 
-
-async function isOwner(req, res, next) {
-    let cars = await carsServices.getOne(req.params.id);
-
-    if (cars.owner == req.user._id) {
-        res.redirect(`/cars/${req.params.id}/details`);
-    } else {
-        next();
-    }
-}
-
-async function checkIsOwner(req, res, next) {
-    let cars = await carsServices.getOne(req.params.id);
-
-    if (cars.owner == req.user._id) {
-        next();
-    } else {
-        res.redirect(`/cars/${req.params.id}/details`);
-    }
-};
-
-carsController.get('/:id/delete', checkIsOwner, async (req, res) => {
-    try {
-        await carsServices.delete(req.params.id);
-
-        res.redirect('/cars/all-posts');
-    } catch (error) {
-        res.render('cars/create', { error: getErrorMessage(error) });
-    }
-
+carsController.get('/my-posts', isAuth, async (req, res) => {
+    let cars = await carServices.getMyPosts(req.user.id);
+    res.render('cars/my-posts', { cars });
 });
 
-carsController.get('/:id/edit', async (req, res) => {
-    let cars = await carsServices.getOne(req.params.id);
-    console.log(cars);
-    res.render('cars/edit', { ...cars.toObject() })
-});
 
-carsController.post('/:id/edit', checkIsOwner, async (req, res) => {
-    try {
-        console.log(await carsServices.updateOne(req.params.id, req.body));
+// async function isOwner(req, res, next) {
+//     let cars = await carsServices.getOne(req.params.id);
 
-        res.redirect(`/cars/${req.params.id}/details`);
-    } catch(error) {
-        console.log(getErrorMessage(error));
-        res.render('cars/create', { error: getErrorMessage(error) });
-    }
+//     if (cars.owner == req.user._id) {
+//         res.redirect(`/cars/${req.params.id}/details`);
+//     } else {
+//         next();
+//     }
+// }
 
-});
+// async function checkIsOwner(req, res, next) {
+//     let cars = await carsServices.getOne(req.params.id);
 
-carsController.get('/:id/liked', isOwner, async (req, res) => {
-    let cars = await carsServices.getOne(req.params.id);
+//     if (cars.owner == req.user._id) {
+//         next();
+//     } else {
+//         res.redirect(`/cars/${req.params.id}/details`);
+//     }
+// };
 
-    cars.liked.push(req.user);
-    await cars.save();
+// carsController.get('/:id/delete', checkIsOwner, async (req, res) => {
+//     try {
+//         await carsServices.delete(req.params.id);
 
-    res.redirect(`/cars/${req.params.id}/details`);
+//         res.redirect('/cars/all-posts');
+//     } catch (error) {
+//         res.render('cars/create', { error: getErrorMessage(error) });
+//     }
 
-});
+// });
+
+// carsController.get('/:id/edit', async (req, res) => {
+//     let cars = await carsServices.getOne(req.params.id);
+//     console.log(cars);
+//     res.render('cars/edit', { ...cars.toObject() })
+// });
+
+// carsController.post('/:id/edit', checkIsOwner, async (req, res) => {
+//     try {
+//         console.log(await carsServices.updateOne(req.params.id, req.body));
+
+//         res.redirect(`/cars/${req.params.id}/details`);
+//     } catch(error) {
+//         console.log(getErrorMessage(error));
+//         res.render('cars/create', { error: getErrorMessage(error) });
+//     }
+
+// });
+
+// carsController.get('/:id/liked', isOwner, async (req, res) => {
+//     let cars = await carsServices.getOne(req.params.id);
+
+//     cars.liked.push(req.user);
+//     await cars.save();
+
+//     res.redirect(`/cars/${req.params.id}/details`);
+
+// });
 
 export default carsController

@@ -11,7 +11,7 @@ export function auth (req, res, next)
     try {
     const user = jsonwebtoken.verify(token, JWT_SECRET)
     req.user = user ;
-        req.isAuthenticated = true
+    req.isAuthenticated = true
     res.locals.user = user;
     res.locals.isAuthenticated = true;
         next()
