@@ -72,22 +72,26 @@ async function isOwner(req, res, next) {
 
 carsController.get('/details/:id/liked' ,isAuth, async (req, res) => {
     const car = await carServices.getOne(req.params.id);
-
-    car.likes.push(req.user.id);
+    try {
+        car.likes.push(req.user.id);
     await car.save();
+    } catch (error) {
+        
+    }
+    
 
     res.redirect(`/cars/details/${req.params.id}`);
 });
 
 
 
-carsController.get('/edit/:id', isOwner, async (req, res) => {
+carsController.get('/edit/:id', isAuth , isOwner, async (req, res) => {
     let cars = await carServices.getOne(req.params.id);
     
     res.render('cars/edit', { ...cars.toObject() })
 });
 
-carsController.post('/edit/:id', isOwner,async (req, res) => {
+carsController.post('/edit/:id', isAuth , isOwner,async (req, res) => {
     try {
      await carServices.updateOne(req.params.id, req.body)
         
@@ -100,7 +104,7 @@ carsController.post('/edit/:id', isOwner,async (req, res) => {
 
 });
 
-carsController.get('/delete/:id',isOwner, async (req, res) => {
+carsController.get('/delete/:id', isAuth ,isOwner, async (req, res) => {
     try {
         await carServices.deleteOne(req.params.id);
         

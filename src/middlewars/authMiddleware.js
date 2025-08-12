@@ -25,7 +25,7 @@ export function auth (req, res, next)
 export function isAuth (req, res, next)
 {
     if (!req.isAuthenticated) {
-        res.redirect('/users/login')
+        return res.redirect('/users/login')
     }
 
     next()
@@ -34,7 +34,7 @@ export function isAuth (req, res, next)
 export function isGuest (req, res, next)
 {
     if (req.isAuthenticated) {
-        res.redirect('/')
+        return res.redirect('/')
     }
     next()
 }
