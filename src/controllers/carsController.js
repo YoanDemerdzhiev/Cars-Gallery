@@ -35,7 +35,7 @@ carsController.get('/details/:id', async (req, res) => {
     const cars = await carServices.getOne(req.params.id);
     const carsData = await cars.toObject();
     let isOwner = false;
-    const isLiked = false;
+    let isLiked = false;
     if (req.isAuthenticated) {
     isOwner = carsData.owner == req.user.id;
     isLiked = carsData.likes.some(like => like.id === req.user._id);
@@ -79,30 +79,35 @@ carsController.get('/details/:id/liked' ,isAuth, async (req, res) => {
     res.redirect(`/cars/details/${req.params.id}`);
 });
 
+
+
+carsController.get('/edit/:id', async (req, res) => {
+    let cars = await carServices.getOne(req.params.id);
+    console.log(cars);
+    res.render('cars/edit', { ...cars.toObject() })
+});
+
+carsController.post('/edit/:id', async (req, res) => {
+    
+    
+    try {
+        const updatedCar = await carServices.updateOne(req.params.id, req.body)
+        console.log(updatedCar)
+        res.redirect(`/cars/details/${req.params.id}`);
+    } catch(error) {
+        console.log(getErrorMessage(error));
+        const car = await carServices.getOne(req.params.id);
+        res.render(`cars/edit`, { error: getErrorMessage(error) , ...car.toObject()  });
+    }
+
+});
+
 // carsController.get('/:id/delete', checkIsOwner, async (req, res) => {
 //     try {
 //         await carsServices.delete(req.params.id);
 
 //         res.redirect('/cars/all-posts');
 //     } catch (error) {
-//         res.render('cars/create', { error: getErrorMessage(error) });
-//     }
-
-// });
-
-// carsController.get('/:id/edit', async (req, res) => {
-//     let cars = await carsServices.getOne(req.params.id);
-//     console.log(cars);
-//     res.render('cars/edit', { ...cars.toObject() })
-// });
-
-// carsController.post('/:id/edit', checkIsOwner, async (req, res) => {
-//     try {
-//         console.log(await carsServices.updateOne(req.params.id, req.body));
-
-//         res.redirect(`/cars/${req.params.id}/details`);
-//     } catch(error) {
-//         console.log(getErrorMessage(error));
 //         res.render('cars/create', { error: getErrorMessage(error) });
 //     }
 

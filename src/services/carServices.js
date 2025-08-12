@@ -22,8 +22,8 @@ export default{
   getMyPosts(userId)  {
     return Car.find({ owner: userId }).lean()
 },
-  updateOne(carId, carData)  
+  async updateOne(carId, carData)  
 {
-    Car.findByIdAndUpdate(carId, carData)
+    return await Car.findByIdAndUpdate(carId, carData,{ new: true, runValidators: true });
 }
 }

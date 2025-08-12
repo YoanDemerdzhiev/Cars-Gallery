@@ -4,12 +4,12 @@
                         <h2>Update the details of your showcased vehicle below. Make sure all the information is accurate - car lovers are watching!</h2>
                     </div>
 
-                    <form action="cars/:id/edit" method="" class="editForm">
+                    <form action="/cars/edit/{{_id}}" method="post" class="editForm">
                         <h2>Edit Car Showcase</h2>
                          <ul class="ul-wrap">
                             <li>
                                 <label for="car-name">Car Model Name:</label>
-                                <input type="text" class="inputFields" id="car-name" name="name"
+                                <input type="text" class="inputFields" id="car-name" name="model"
                                     placeholder="Bugatti Chiron" />
                             </li>
                             <li>
@@ -24,7 +24,7 @@
                             </li>
                             <li>
                                 <label for="top-speed">Top Speed:</label>
-                                <input type="text" class="inputFields" id="top-speed" name="specs"
+                                <input type="text" class="inputFields" id="top-speed" name="topspeed"
                                     placeholder="Top Speed: 304 kmph" />
                             </li>
                             <li>
