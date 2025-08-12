@@ -34,6 +34,8 @@ export default {
 
         const token = generateToken(user)
         return token
+    },
+    async getUserById(id) {
+        return User.findById(id)
     }
-
 }

@@ -3,6 +3,7 @@ import carServices from "../services/carServices.js";
 import { isAuth } from "../middlewars/authMiddleware.js";
 import { getErrorMessage } from "../utils/errorMessage.js";
 import { AUTH_COOKIE_NAME } from "../config/index.js";
+import userServices from "../services/userServices.js";
 import Car from "../models/Cars.js";
 
 const carsController = Router();
@@ -31,25 +32,17 @@ carsController.post('/create', isAuth, async (req, res) => {
 
 carsController.get('/details/:id', async (req, res) => {
     
-    let cars = await carServices.getOne(req.params.id);
+    const cars = await carServices.getOne(req.params.id);
+    const carsData = await cars.toObject();
     
-    let carsData = await cars.toObject();
-    console.log(carsData);
+    const isOwner = carsData.owner == req.user.id
     
-    let isOwner = carsData.owner == req.user?._id;
+    const owner = await userServices.getUserById(carsData.owner);
+    const ownerName = `${owner.firstname} ${owner.lastname}`;
     
     
-    let carsOwner = await carServices.findOwner(cars.owner);
-    let creatureInfo = carsData.liked;
-
-    let emails = [];
-    creatureInfo.forEach(x => emails.push(x.email));
-    emails.join(', ');
-
-    let liked = cars.getLiked();
-    let isLiked = req.user && liked.some(c => c._id == req.user?._id);
-
-    res.render('cars/details', { ...carsData, isOwner, isLiked, carsOwner, creatureInfo, emails })
+   
+    res.render('cars/details', {...carsData,isOwner, ownerName})
     
 });
 
@@ -60,15 +53,6 @@ carsController.get('/my-posts', isAuth, async (req, res) => {
 });
 
 
-// async function isOwner(req, res, next) {
-//     let cars = await carsServices.getOne(req.params.id);
-
-//     if (cars.owner == req.user._id) {
-//         res.redirect(`/cars/${req.params.id}/details`);
-//     } else {
-//         next();
-//     }
-// }
 
 // async function checkIsOwner(req, res, next) {
 //     let cars = await carsServices.getOne(req.params.id);
