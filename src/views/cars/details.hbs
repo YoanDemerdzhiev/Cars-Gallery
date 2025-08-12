@@ -16,23 +16,20 @@
                 <p class="disc">
                     Description: {{description}}
                 </p>
-                 
-                <!-- If there is no registered user, do not display buttons-->
+                 {{#if isAuthenticated}}
                 <div class="social-btn">
-                    <!-- Only for registered user and author of the post -->
                     {{#if isOwner}}
-                    <a href="#" class="edit-btn">Edit</a>
-                    <a href="#" class="del-btn">Delete</a>
+                        <a href="#" class="edit-btn">Edit</a>
+                        <a href="#" class="del-btn">Delete</a>
                     {{else}}
-                   
-                    <!-- logged in users, who have not yet liked-->
-                    <a href="/cars/details/{{_id}}/liked" class="like-btn">Like</a>
-                    
-                    <!-- logged in user who has already liked-->
-                    <p class="you-liked">Thanks For The Like</p>
+                        {{#if isLiked}}
+                            <p class="you-liked">Thanks For The Like</p>
+                        {{else}}
+                            <a href="/cars/details/{{_id}}/liked" class="like-btn">Like</a>
+                        {{/if}}
                     {{/if}}
                 </div>
-                
+                {{/if}}
             </div>
         </div>
         <div class="card_right">
@@ -47,12 +44,15 @@
             <div class="card-details">
                 <h1>Likes</h1>
                 <div class="card-like">
-                    <!-- Show the rating of likes, if there are no likes yet, the number must be 0. -->
                     <p class="PV">Total likes: {{likes.length}}</p>
                 </div>
+                {{#if likes.length}}
+                
+                    <p class="disc">People who liked the post - {{likesList}}</p>
+                
+                {{else}}
                 <p class="disc">People who liked the post - No one has liked yet.</p>
- <!-- If there are already people who have cast their like for the post, separate their emails with a comma and a space ", " -->
-                    <!-- <p class="disc">People who liked the post - alex@gmai.com, petar@gmail.com, petq@gmail.com</p>-->
+                {{/if}}
             </div>
         </div>
     </div>

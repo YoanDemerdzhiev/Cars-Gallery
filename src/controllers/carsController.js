@@ -14,7 +14,7 @@ carsController.get('/all-posts', async (req,res) => {
     res.render('cars/all-posts', {cars})
 })
 
-carsController.get('/create', (req, res) => {
+carsController.get('/create', isAuth ,(req, res) => {
     res.render('cars/create')
 });
 
@@ -34,15 +34,21 @@ carsController.get('/details/:id', async (req, res) => {
     
     const cars = await carServices.getOne(req.params.id);
     const carsData = await cars.toObject();
+    let isOwner = false;
+    const isLiked = false;
+    if (req.isAuthenticated) {
+    isOwner = carsData.owner == req.user.id;
+    isLiked = carsData.likes.some(like => like.id === req.user._id);
+    }
     
-    const isOwner = carsData.owner == req.user.id;
+    const likesList = carsData.likes.map(like => like.email).join(', ');
     
     const owner = await userServices.getUserById(carsData.owner);
     const ownerName = `${owner.firstname} ${owner.lastname}`;
     
     
    
-    res.render('cars/details', {...carsData,isOwner, ownerName})
+    res.render('cars/details', {...carsData,isOwner, ownerName, likesList ,isLiked})
     
 });
 
@@ -64,7 +70,7 @@ async function isOwner(req, res, next) {
     }
 };
 
-carsController.get('/details/:id/liked' , async (req, res) => {
+carsController.get('/details/:id/liked' ,isAuth, async (req, res) => {
     const car = await carServices.getOne(req.params.id);
 
     car.likes.push(req.user.id);
