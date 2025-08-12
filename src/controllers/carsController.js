@@ -64,15 +64,13 @@ async function isOwner(req, res, next) {
     }
 };
 
-carsController.get('/details/:id/liked', async (req, res) => {
-    const cars = await carServices.getOne(req.params.id);
-    console.log(req.user);
-    
-    cars.likes.push(req.user);
-    await cars.save();
+carsController.get('/details/:id/liked' , async (req, res) => {
+    const car = await carServices.getOne(req.params.id);
+
+    car.likes.push(req.user.id);
+    await car.save();
 
     res.redirect(`/cars/details/${req.params.id}`);
-
 });
 
 // carsController.get('/:id/delete', checkIsOwner, async (req, res) => {

@@ -10,7 +10,7 @@ export default{
     return Car.find().lean()
 },
   getOne(carId) {
-    return Car.findById(carId).populate('likes')
+    return Car.findById(carId).populate('likes','email')
 },
     
   deleteOne(carId) {
