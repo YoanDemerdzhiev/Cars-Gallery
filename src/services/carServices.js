@@ -16,9 +16,6 @@ export default{
   deleteOne(carId) {
     return Car.findByIdAndDelete(carId)
 },
-  findOwner(userId) {
-    Car.findById(userId).lean()
-},
   getMyPosts(userId)  {
     return Car.find({ owner: userId }).lean()
 },
