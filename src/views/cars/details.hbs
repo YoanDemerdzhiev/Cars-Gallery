@@ -20,7 +20,7 @@
                 <div class="social-btn">
                     {{#if isOwner}}
                         <a href="/cars/edit/{{_id}}" class="edit-btn">Edit</a>
-                        <a href="#" class="del-btn">Delete</a>
+                        <a href="/cars/delete/{{_id}}" class="del-btn">Delete</a>
                     {{else}}
                         {{#if isLiked}}
                             <p class="you-liked">Thanks For The Like</p>
