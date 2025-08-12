@@ -30,7 +30,7 @@ userConstroller.get('/login', isGuest, (req,res) => {
 })
 
 userConstroller.post('/login', isGuest, async (req, res) => {
-        console.log(req.body);
+        
         const {email, password} = req.body
         try {
         const token = await userServices.login(email, password)

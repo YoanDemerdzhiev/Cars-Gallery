@@ -5,7 +5,7 @@ export function generateToken (user) {
             id: user.id,
             firstName: user.firstname,
             lastName: user.lastname,
-
+            email: user.email
         }
         
         const token = jsonwebtoken.sign(payload, JWT_SECRET, {expiresIn : "2h"})

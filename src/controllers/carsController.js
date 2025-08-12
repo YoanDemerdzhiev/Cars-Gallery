@@ -35,7 +35,7 @@ carsController.get('/details/:id', async (req, res) => {
     const cars = await carServices.getOne(req.params.id);
     const carsData = await cars.toObject();
     
-    const isOwner = carsData.owner == req.user.id
+    const isOwner = carsData.owner == req.user.id;
     
     const owner = await userServices.getUserById(carsData.owner);
     const ownerName = `${owner.firstname} ${owner.lastname}`;
@@ -54,15 +54,26 @@ carsController.get('/my-posts', isAuth, async (req, res) => {
 
 
 
-// async function checkIsOwner(req, res, next) {
-//     let cars = await carsServices.getOne(req.params.id);
+async function isOwner(req, res, next) {
+    let cars = await carServices.getOne(req.params.id);
 
-//     if (cars.owner == req.user._id) {
-//         next();
-//     } else {
-//         res.redirect(`/cars/${req.params.id}/details`);
-//     }
-// };
+    if (cars.owner == req.user.id) {
+        next();
+    } else {
+        res.redirect(`/cars/details/${req.params.id}`);
+    }
+};
+
+carsController.get('/details/:id/liked', async (req, res) => {
+    const cars = await carServices.getOne(req.params.id);
+    console.log(req.user);
+    
+    cars.likes.push(req.user);
+    await cars.save();
+
+    res.redirect(`/cars/details/${req.params.id}`);
+
+});
 
 // carsController.get('/:id/delete', checkIsOwner, async (req, res) => {
 //     try {
@@ -93,14 +104,6 @@ carsController.get('/my-posts', isAuth, async (req, res) => {
 
 // });
 
-// carsController.get('/:id/liked', isOwner, async (req, res) => {
-//     let cars = await carsServices.getOne(req.params.id);
 
-//     cars.liked.push(req.user);
-//     await cars.save();
-
-//     res.redirect(`/cars/${req.params.id}/details`);
-
-// });
 
 export default carsController
